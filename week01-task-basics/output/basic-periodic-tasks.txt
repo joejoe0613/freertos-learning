@@ -1,0 +1,35 @@
+FreeRTOS Week 1 - Task Basics
+Tasks created successfully.
+Starting scheduler...
+[Task B] tick = 0
+[Task A] tick = 0
+[Task A] tick = 501
+[Task B] tick = 1000
+[Task A] tick = 1001
+[Task A] tick = 1501
+[Task B] tick = 2000
+[Task A] tick = 2001
+[Task A] tick = 2501
+[Task B] tick = 3000
+[Task A] tick = 3001
+[Task A] tick = 3501
+[Task B] tick = 4000
+[Task A] tick = 4001
+[Task A] tick = 4501
+[Task B] tick = 5000
+[Task A] tick = 5001
+[Task A] tick = 5501
+[Task B] tick = 6000
+[Task A] tick = 6001
+[Task A] tick = 6501
+[Task B] tick = 7000
+[Task A] tick = 7001
+[Task A] tick = 7501
+[Task B] tick = 8000
+[Task A] tick = 8001
+[Task A] tick = 8501
+[Task B] tick = 9000
+[Task A] tick = 9001
+[Task A] tick = 9501
+[Task B] tick = 10000
+[Task A] tick = 10001
