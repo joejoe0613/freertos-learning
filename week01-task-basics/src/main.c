@@ -7,20 +7,18 @@
 
 static void vTaskA(void *pvParameters)
 {
-    TickType_t xLastWakeTime;
+    volatile unsigned long counter = 0;
 
     (void) pvParameters;
 
-    xLastWakeTime = xTaskGetTickCount();
+    //xLastWakeTime = xTaskGetTickCount();
+
+    printf("[Task A] High-priority task started.\n");
+    fflush(stdout);
 
     for (;;)
     {
-        printf("[Task A] tick = %lu\n",
-               (unsigned long) xTaskGetTickCount());
-
-        fflush(stdout);
-
-        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(1000));
+        counter++;
     }
 }
 

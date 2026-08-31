@@ -1,0 +1,4 @@
+FreeRTOS Week 1 - Task Basics
+Tasks created successfully.
+Starting scheduler...
+[Task A] High-priority task started.
