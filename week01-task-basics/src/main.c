@@ -20,7 +20,7 @@ static void vTaskA(void *pvParameters)
 
         fflush(stdout);
 
-        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(500));
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(1000));
     }
 }
 
@@ -69,7 +69,7 @@ int main(void)
         "TaskA",
         configMINIMAL_STACK_SIZE * 2,
         NULL,
-        1,
+        2,
         NULL
     );
 
