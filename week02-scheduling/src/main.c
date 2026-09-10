@@ -4,97 +4,97 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-// static void vTaskA(void *pvParameters)
-// {
-//     unsigned long counter = 0;
+static void vTaskA(void *pvParameters)
+{
+    unsigned long counter = 0;
 
-//     (void)pvParameters;
+    (void)pvParameters;
 
-//     for(;;){
-//         for (counter = 0;
-//              counter < 1000000UL;
-//              counter++)
-//         {
-//             /* Simulate CPU work. */
-//         }
+    for(;;){
+        for (counter = 0;
+             counter < 1000000UL;
+             counter++)
+        {
+            /* Simulate CPU work. */
+        }
 
-//         printf("[Task A] yield at tick = %lu\n",
-//                (unsigned long)xTaskGetTickCount());
+        printf("[Task A] yield at tick = %lu\n",
+               (unsigned long)xTaskGetTickCount());
 
-//         fflush(stdout);
+        fflush(stdout);
 
-//         taskYIELD();
-//     }
-// }
+        taskYIELD();
+    }
+}
 
-// static void vTaskB(void *pvParameters)
-// {
-//     unsigned long counter = 0;
+static void vTaskB(void *pvParameters)
+{
+    unsigned long counter = 0;
 
-//     (void)pvParameters;
+    (void)pvParameters;
 
-//     for(;;){
-//         for (counter = 0;
-//              counter < 1000000UL;
-//              counter++)
-//         {
-//             /* Simulate CPU work. */
-//         }
+    for(;;){
+        for (counter = 0;
+             counter < 1000000UL;
+             counter++)
+        {
+            /* Simulate CPU work. */
+        }
 
-//         printf("[Task B] yield at tick = %lu\n",
-//                (unsigned long)xTaskGetTickCount());
+        printf("[Task B] yield at tick = %lu\n",
+               (unsigned long)xTaskGetTickCount());
 
-//         fflush(stdout);
+        fflush(stdout);
 
-//         taskYIELD();
-//     }
-// }
+        taskYIELD();
+    }
+}
 
-// void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
-// {
-//     (void)xTask;
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+{
+    (void)xTask;
 
-//     fprintf(stderr, "StackOverflow detected in task: %s\n", pcTaskName);
+    fprintf(stderr, "StackOverflow detected in task: %s\n", pcTaskName);
 
-//     abort();
-// }
+    abort();
+}
 
-// int main(void)
-// {
-//     BaseType_t resultA;
-//     BaseType_t resultB;
+int main(void)
+{
+    BaseType_t resultA;
+    BaseType_t resultB;
 
-//     printf("Week 2 - Time Slicing Experement\n");
+    printf("Week 2 - Time Slicing Experement\n");
 
-//     resultA = xTaskCreate(
-//         vTaskA,
-//         "TaskA",
-//         configMINIMAL_STACK_SIZE * 2,
-//         NULL,
-//         1,
-//         NULL
-//     );
+    resultA = xTaskCreate(
+        vTaskA,
+        "TaskA",
+        configMINIMAL_STACK_SIZE * 2,
+        NULL,
+        1,
+        NULL
+    );
 
-//     resultB = xTaskCreate(
-//         vTaskB,
-//         "TaskB",
-//         configMINIMAL_STACK_SIZE * 2,
-//         NULL,
-//         1,
-//         NULL
-//     );
+    resultB = xTaskCreate(
+        vTaskB,
+        "TaskB",
+        configMINIMAL_STACK_SIZE * 2,
+        NULL,
+        1,
+        NULL
+    );
 
-//     if ((resultA != pdPASS) ||
-//         (resultB != pdPASS))
-//     {
-//         printf("Task creation failed!\n");
-//         return 1;
-//     }
+    if ((resultA != pdPASS) ||
+        (resultB != pdPASS))
+    {
+        printf("Task creation failed!\n");
+        return 1;
+    }
 
-//     vTaskStartScheduler();
+    vTaskStartScheduler();
 
-//     return 0;
-// }
+    return 0;
+}
 
 // static void vLowPriorityTask(void* pvParameters)
 // {
@@ -178,92 +178,92 @@
 //     return 0;
 // }
 
-static TaskHandle_t xWorkerHandle = NULL;
+// static TaskHandle_t xWorkerHandle = NULL;
 
-static void vWorkerTask(void* pvParameters)
-{
-    volatile unsigned long counter = 0;
+// static void vWorkerTask(void* pvParameters)
+// {
+//     volatile unsigned long counter = 0;
 
-    (void)pvParameters;
+//     (void)pvParameters;
 
-    for(;;){
-        counter++;
+//     for(;;){
+//         counter++;
 
-        if(counter >= 10000000UL){
-            printf("[WORKER] running at tick = %lu\n", (unsigned long)xTaskGetTickCount());
+//         if(counter >= 10000000UL){
+//             printf("[WORKER] running at tick = %lu\n", (unsigned long)xTaskGetTickCount());
 
-            fflush(stdout);
+//             fflush(stdout);
 
-            vTaskDelay(pdMS_TO_TICKS(500));
-        }
-    }
-}
+//             vTaskDelay(pdMS_TO_TICKS(500));
+//         }
+//     }
+// }
 
-static void vControllerTask(void* pvParameters)
-{
-    (void)pvParameters;
+// static void vControllerTask(void* pvParameters)
+// {
+//     (void)pvParameters;
 
-    for(;;)
-    {
-        vTaskDelay(pdMS_TO_TICKS(2000));
+//     for(;;)
+//     {
+//         vTaskDelay(pdMS_TO_TICKS(2000));
 
-        printf("\n>>> Suspending Worker Task at tick = %lu\n\n", (unsigned long)xTaskGetTickCount());
+//         printf("\n>>> Suspending Worker Task at tick = %lu\n\n", (unsigned long)xTaskGetTickCount());
 
-        fflush(stdout);
+//         fflush(stdout);
 
-        vTaskSuspend(xWorkerHandle);
+//         vTaskSuspend(xWorkerHandle);
 
-        vTaskDelay(pdMS_TO_TICKS(3000));
+//         vTaskDelay(pdMS_TO_TICKS(3000));
 
-        printf("\n>>> Resuming Worker Task at tick = %lu\n\n", (unsigned long)xTaskGetTickCount());
+//         printf("\n>>> Resuming Worker Task at tick = %lu\n\n", (unsigned long)xTaskGetTickCount());
 
-        fflush(stdout);
+//         fflush(stdout);
 
-        vTaskResume(xWorkerHandle);
-    }
-}
+//         vTaskResume(xWorkerHandle);
+//     }
+// }
 
-void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
-{
-    (void)xTask;
+// void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+// {
+//     (void)xTask;
 
-    fprintf(stderr, "StackOverflow detected in task: %s\n", pcTaskName);
+//     fprintf(stderr, "StackOverflow detected in task: %s\n", pcTaskName);
 
-    abort();
-}
+//     abort();
+// }
 
-int main(void){
-    BaseType_t resultWorker;
-    BaseType_t resultController;
+// int main(void){
+//     BaseType_t resultWorker;
+//     BaseType_t resultController;
 
-    printf("Week 2 - Suspend / Resume Experiment\n");
+//     printf("Week 2 - Suspend / Resume Experiment\n");
 
-    resultWorker = xTaskCreate(
-        vWorkerTask,
-        "WorkerTask",
-        configMINIMAL_STACK_SIZE * 2,
-        NULL,
-        1,
-        &xWorkerHandle
-    );
+//     resultWorker = xTaskCreate(
+//         vWorkerTask,
+//         "WorkerTask",
+//         configMINIMAL_STACK_SIZE * 2,
+//         NULL,
+//         1,
+//         &xWorkerHandle
+//     );
 
-    resultController = xTaskCreate(
-        vControllerTask,
-        "ControllerTask",
-        configMINIMAL_STACK_SIZE * 2,
-        NULL,
-        2,
-        NULL
-    );
+//     resultController = xTaskCreate(
+//         vControllerTask,
+//         "ControllerTask",
+//         configMINIMAL_STACK_SIZE * 2,
+//         NULL,
+//         2,
+//         NULL
+//     );
 
-    if ((resultWorker != pdPASS) ||
-        (resultController != pdPASS))
-    {
-        printf("Task creation failed!\n");
-        return 1;
-    }
+//     if ((resultWorker != pdPASS) ||
+//         (resultController != pdPASS))
+//     {
+//         printf("Task creation failed!\n");
+//         return 1;
+//     }
 
-    vTaskStartScheduler();
+//     vTaskStartScheduler();
 
-    return 0;
-}
+//     return 0;
+// }
