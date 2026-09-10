@@ -4,49 +4,132 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-static void vTaskA(void *pvParameters)
+// static void vTaskA(void *pvParameters)
+// {
+//     unsigned long counter = 0;
+
+//     (void)pvParameters;
+
+//     for(;;){
+//         for (counter = 0;
+//              counter < 1000000UL;
+//              counter++)
+//         {
+//             /* Simulate CPU work. */
+//         }
+
+//         printf("[Task A] yield at tick = %lu\n",
+//                (unsigned long)xTaskGetTickCount());
+
+//         fflush(stdout);
+
+//         taskYIELD();
+//     }
+// }
+
+// static void vTaskB(void *pvParameters)
+// {
+//     unsigned long counter = 0;
+
+//     (void)pvParameters;
+
+//     for(;;){
+//         for (counter = 0;
+//              counter < 1000000UL;
+//              counter++)
+//         {
+//             /* Simulate CPU work. */
+//         }
+
+//         printf("[Task B] yield at tick = %lu\n",
+//                (unsigned long)xTaskGetTickCount());
+
+//         fflush(stdout);
+
+//         taskYIELD();
+//     }
+// }
+
+// void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+// {
+//     (void)xTask;
+
+//     fprintf(stderr, "StackOverflow detected in task: %s\n", pcTaskName);
+
+//     abort();
+// }
+
+// int main(void)
+// {
+//     BaseType_t resultA;
+//     BaseType_t resultB;
+
+//     printf("Week 2 - Time Slicing Experement\n");
+
+//     resultA = xTaskCreate(
+//         vTaskA,
+//         "TaskA",
+//         configMINIMAL_STACK_SIZE * 2,
+//         NULL,
+//         1,
+//         NULL
+//     );
+
+//     resultB = xTaskCreate(
+//         vTaskB,
+//         "TaskB",
+//         configMINIMAL_STACK_SIZE * 2,
+//         NULL,
+//         1,
+//         NULL
+//     );
+
+//     if ((resultA != pdPASS) ||
+//         (resultB != pdPASS))
+//     {
+//         printf("Task creation failed!\n");
+//         return 1;
+//     }
+
+//     vTaskStartScheduler();
+
+//     return 0;
+// }
+
+static void vLowPriorityTask(void* pvParameters)
 {
-    unsigned long counter = 0;
+    volatile unsigned long counter = 0;
 
     (void)pvParameters;
 
     for(;;){
-        for (counter = 0;
-             counter < 1000000UL;
-             counter++)
-        {
-            /* Simulate CPU work. */
+        counter++;
+
+        if(counter >= 10000000UL){
+            printf("[LOW] running at tick = %lu\n", (unsigned long)xTaskGetTickCount());
+
+            fflush(stdout);
+
+            counter = 0;
         }
-
-        printf("[Task A] yield at tick = %lu\n",
-               (unsigned long)xTaskGetTickCount());
-
-        fflush(stdout);
-
-        taskYIELD();
     }
 }
 
-static void vTaskB(void *pvParameters)
+static void vHighPriorityTask(void* pvParameters)
 {
-    unsigned long counter = 0;
+    TickType_t xLastWakeTime;
 
     (void)pvParameters;
 
-    for(;;){
-        for (counter = 0;
-             counter < 1000000UL;
-             counter++)
-        {
-            /* Simulate CPU work. */
-        }
+    xLastWakeTime = xTaskGetTickCount();
 
-        printf("[Task B] yield at tick = %lu\n",
-               (unsigned long)xTaskGetTickCount());
+    for(;;)
+    {
+        printf("[HIGH] running at tick = %lu\n", (unsigned long)xTaskGetTickCount());
 
         fflush(stdout);
 
-        taskYIELD();
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(1000));
     }
 }
 
@@ -59,33 +142,32 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
     abort();
 }
 
-int main(void)
-{
-    BaseType_t resultA;
-    BaseType_t resultB;
+int main(void){
+    BaseType_t resultLow;
+    BaseType_t resultHigh;
 
-    printf("Week 2 - Time Slicing Experement\n");
+    printf("Week 2 - Preemption Experement\n");
 
-    resultA = xTaskCreate(
-        vTaskA,
-        "TaskA",
+    resultLow = xTaskCreate(
+        vLowPriorityTask,
+        "LowPriorityTask",
         configMINIMAL_STACK_SIZE * 2,
         NULL,
         1,
         NULL
     );
 
-    resultB = xTaskCreate(
-        vTaskB,
-        "TaskB",
+    resultHigh = xTaskCreate(
+        vHighPriorityTask,
+        "HighPriorityTask",
         configMINIMAL_STACK_SIZE * 2,
         NULL,
-        1,
+        2,
         NULL
     );
 
-    if ((resultA != pdPASS) ||
-        (resultB != pdPASS))
+    if ((resultLow != pdPASS) ||
+        (resultHigh != pdPASS))
     {
         printf("Task creation failed!\n");
         return 1;
