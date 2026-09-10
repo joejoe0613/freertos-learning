@@ -1,0 +1,23 @@
+Week 2 - Suspend / Resume Experiment
+[WORKER] running at tick = 4
+[WORKER] running at tick = 504
+[WORKER] running at tick = 1004
+[WORKER] running at tick = 1504
+
+>>> Suspending Worker Task at tick = 2001
+
+
+>>> Resuming Worker Task at tick = 5001
+
+[WORKER] running at tick = 5001
+[WORKER] running at tick = 5501
+[WORKER] running at tick = 6001
+[WORKER] running at tick = 6501
+
+>>> Suspending Worker Task at tick = 7001
+
+
+>>> Resuming Worker Task at tick = 10001
+
+[WORKER] running at tick = 10001
+[WORKER] running at tick = 10501
