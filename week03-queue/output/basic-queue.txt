@@ -1,0 +1,48 @@
+Week 3 - Basic Queue Experiment
+Queue and tasks created successfully.
+Starting scheduler...
+[Producer] Sending 1 at tick 0
+[Producer] send success
+[Consumer] Received 1 at tick 0
+[Producer] Sending 2 at tick 501
+[Producer] send success
+[Consumer] Received 2 at tick 501
+[Producer] Sending 3 at tick 1001
+[Producer] send success
+[Consumer] Received 3 at tick 1001
+[Producer] Sending 4 at tick 1501
+[Producer] send success
+[Consumer] Received 4 at tick 1501
+[Producer] Sending 5 at tick 2001
+[Producer] send success
+[Consumer] Received 5 at tick 2001
+[Producer] Sending 6 at tick 2501
+[Producer] send success
+[Consumer] Received 6 at tick 2501
+[Producer] Sending 7 at tick 3001
+[Producer] send success
+[Consumer] Received 7 at tick 3001
+[Producer] Sending 8 at tick 3501
+[Producer] send success
+[Consumer] Received 8 at tick 3501
+[Producer] Sending 9 at tick 4001
+[Producer] send success
+[Consumer] Received 9 at tick 4001
+[Producer] Sending 10 at tick 4501
+[Producer] send success
+[Consumer] Received 10 at tick 4501
+[Producer] Sending 11 at tick 5001
+[Producer] send success
+[Consumer] Received 11 at tick 5001
+[Producer] Sending 12 at tick 5501
+[Producer] send success
+[Consumer] Received 12 at tick 5501
+[Producer] Sending 13 at tick 6001
+[Producer] send success
+[Consumer] Received 13 at tick 6001
+[Producer] Sending 14 at tick 6501
+[Producer] send success
+[Consumer] Received 14 at tick 6501
+[Producer] Sending 15 at tick 7001
+[Producer] send success
+[Consumer] Received 15 at tick 7001
