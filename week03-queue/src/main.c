@@ -19,6 +19,8 @@ static void vProducerTask(void *pvParameters)
 
         fflush(stdout);
 
+        printf("[Producer] queue items = %u\n", (unsigned int)uxQueueMessagesWaiting(xDataQueue));
+
         if(xQueueSend(xDataQueue, &value, portMAX_DELAY) == pdPASS)
         {
             printf("[Producer] send success\n");
@@ -27,7 +29,7 @@ static void vProducerTask(void *pvParameters)
 
         value++;
 
-        vTaskDelay(pdMS_TO_TICKS(500));
+        vTaskDelay(pdMS_TO_TICKS(200));
     }
 }
 
@@ -42,7 +44,12 @@ static void vConsumerTask(void *pvParameters)
         if(xQueueReceive(xDataQueue, &receivedValue, portMAX_DELAY) == pdPASS)
         {
             printf("[Consumer] Received %d at tick %lu\n", receivedValue, xTaskGetTickCount());
+            
+            printf("[Consumer] queue items = %u\n", (unsigned int)uxQueueMessagesWaiting(xDataQueue));
+
             fflush(stdout);
+
+            vTaskDelay(pdMS_TO_TICKS(1000));
         }
     }
 }
@@ -61,7 +68,7 @@ int main(void)
 
     printf("Week 3 - Basic Queue Experiment\n");
     
-    xDataQueue = xQueueCreate(5, sizeof(int));
+    xDataQueue = xQueueCreate(3, sizeof(int));
 
     if (xDataQueue == NULL)
     {
