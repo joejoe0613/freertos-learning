@@ -5,52 +5,91 @@
 #include "task.h"
 #include "queue.h"
 
+typedef struct 
+{
+    /* data */
+    int sensorID;
+    int value;
+    TickType_t timestamp;
+} SensorMessage_t;
+
+
 static QueueHandle_t xDataQueue = NULL;
 
 static void vProducerTask(void *pvParameters)
 {
-    int value = 1;
+    SensorMessage_t message;
+
+    int sequence = 0;
 
     (void)pvParameters;
 
-    for(;;)
+    for (;;)
     {
-        printf("[Producer] Sending %d at tick %lu\n", value, xTaskGetTickCount());
+        /*
+         * Simulate three different sensors.
+         */
+        message.sensorID = (sequence % 3) + 1;
 
-        fflush(stdout);
-
-        printf("[Producer] queue items = %u\n", (unsigned int)uxQueueMessagesWaiting(xDataQueue));
-
-        if(xQueueSend(xDataQueue, &value, portMAX_DELAY) == pdPASS)
+        /*
+         * Give each sensor a different value range
+         * so the message structure is easier to observe.
+         */
+        switch (message.sensorID)
         {
-            printf("[Producer] send success\n");
+            case 1:
+                message.value = 20 + sequence;
+                break;
+
+            case 2:
+                message.value = 50 + sequence;
+                break;
+
+            case 3:
+                message.value = 100 + sequence;
+                break;
+
+            default:
+                message.value = 0;
+                break;
+        }
+
+        message.timestamp = xTaskGetTickCount();
+
+        if (xQueueSend(
+                xDataQueue,
+                &message,
+                portMAX_DELAY) == pdPASS)
+        {
+            printf(
+                "[Producer] ID=%d Value=%d Timestamp=%lu\n",
+                message.sensorID,
+                message.value,
+                (unsigned long)message.timestamp
+            );
+
             fflush(stdout);
         }
 
-        value++;
+        sequence++;
 
-        vTaskDelay(pdMS_TO_TICKS(200));
+        vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
 
 static void vConsumerTask(void *pvParameters)
 {
-    int receivedValue = 0;
+    SensorMessage_t received;
 
     (void)pvParameters;
 
     for(;;)
     {
-        if(xQueueReceive(xDataQueue, &receivedValue, portMAX_DELAY) == pdPASS)
-        {
-            printf("[Consumer] Received %d at tick %lu\n", receivedValue, xTaskGetTickCount());
-            
-            printf("[Consumer] queue items = %u\n", (unsigned int)uxQueueMessagesWaiting(xDataQueue));
-
-            fflush(stdout);
-
-            vTaskDelay(pdMS_TO_TICKS(1000));
+        if (xQueueReceive(xDataQueue, &received, portMAX_DELAY) == pdPASS){
+            printf("[Consumer] ID=%d Value=%d Timestamp=%lu\n", received.sensorID, received.value, (unsigned long)received.timestamp);
         }
+
+        fflush(stdout);
     }
 }
 
@@ -68,7 +107,7 @@ int main(void)
 
     printf("Week 3 - Basic Queue Experiment\n");
     
-    xDataQueue = xQueueCreate(3, sizeof(int));
+    xDataQueue = xQueueCreate(5, sizeof(SensorMessage_t));
 
     if (xDataQueue == NULL)
     {

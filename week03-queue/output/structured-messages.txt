@@ -1,0 +1,33 @@
+Week 3 - Basic Queue Experiment
+Queue and tasks created successfully.
+Starting scheduler...
+[Producer] ID=1 Value=20 Timestamp=0
+[Consumer] ID=1 Value=20 Timestamp=0
+[Producer] ID=2 Value=51 Timestamp=500
+[Consumer] ID=2 Value=51 Timestamp=500
+[Producer] ID=3 Value=102 Timestamp=1000
+[Consumer] ID=3 Value=102 Timestamp=1000
+[Producer] ID=1 Value=23 Timestamp=1500
+[Consumer] ID=1 Value=23 Timestamp=1500
+[Producer] ID=2 Value=54 Timestamp=2000
+[Consumer] ID=2 Value=54 Timestamp=2000
+[Producer] ID=3 Value=105 Timestamp=2500
+[Consumer] ID=3 Value=105 Timestamp=2500
+[Producer] ID=1 Value=26 Timestamp=3000
+[Consumer] ID=1 Value=26 Timestamp=3000
+[Producer] ID=2 Value=57 Timestamp=3500
+[Consumer] ID=2 Value=57 Timestamp=3500
+[Producer] ID=3 Value=108 Timestamp=4000
+[Consumer] ID=3 Value=108 Timestamp=4000
+[Producer] ID=1 Value=29 Timestamp=4500
+[Consumer] ID=1 Value=29 Timestamp=4500
+[Producer] ID=2 Value=60 Timestamp=5000
+[Consumer] ID=2 Value=60 Timestamp=5000
+[Producer] ID=3 Value=111 Timestamp=5500
+[Consumer] ID=3 Value=111 Timestamp=5500
+[Producer] ID=1 Value=32 Timestamp=6000
+[Consumer] ID=1 Value=32 Timestamp=6000
+[Producer] ID=2 Value=63 Timestamp=6500
+[Consumer] ID=2 Value=63 Timestamp=6500
+[Producer] ID=3 Value=114 Timestamp=7000
+[Consumer] ID=3 Value=114 Timestamp=7000
