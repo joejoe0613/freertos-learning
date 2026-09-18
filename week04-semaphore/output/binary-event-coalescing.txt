@@ -1,0 +1,45 @@
+Week 4 - Binary Semaphore Experiment
+Semaphore and tasks created successfully.
+Starting scheduler...
+[Generator] Event 1 generated at tick 201
+    [Processor] Processing event #1 at tick 201
+[Generator] Event 2 generated at tick 401
+[Generator] Event 3 generated at tick 601
+[Generator] Event 4 generated at tick 801
+[Generator] Event 5 generated at tick 1001
+    [Processor] Processing event #2 at tick 1201
+[Generator] Event 6 generated at tick 1201
+[Generator] Event 7 generated at tick 1401
+[Generator] Event 8 generated at tick 1601
+[Generator] Event 9 generated at tick 1801
+[Generator] Event 10 generated at tick 2001
+    [Processor] Processing event #3 at tick 2201
+[Generator] Event 11 generated at tick 2201
+[Generator] Event 12 generated at tick 2401
+[Generator] Event 13 generated at tick 2601
+[Generator] Event 14 generated at tick 2801
+[Generator] Event 15 generated at tick 3001
+    [Processor] Processing event #4 at tick 3201
+[Generator] Event 16 generated at tick 3201
+[Generator] Event 17 generated at tick 3401
+[Generator] Event 18 generated at tick 3601
+[Generator] Event 19 generated at tick 3801
+[Generator] Event 20 generated at tick 4001
+    [Processor] Processing event #5 at tick 4201
+[Generator] Event 21 generated at tick 4201
+[Generator] Event 22 generated at tick 4401
+[Generator] Event 23 generated at tick 4601
+[Generator] Event 24 generated at tick 4801
+[Generator] Event 25 generated at tick 5001
+    [Processor] Processing event #6 at tick 5201
+[Generator] Event 26 generated at tick 5201
+[Generator] Event 27 generated at tick 5401
+[Generator] Event 28 generated at tick 5601
+[Generator] Event 29 generated at tick 5801
+[Generator] Event 30 generated at tick 6001
+    [Processor] Processing event #7 at tick 6201
+[Generator] Event 31 generated at tick 6201
+[Generator] Event 32 generated at tick 6401
+[Generator] Event 33 generated at tick 6601
+[Generator] Event 34 generated at tick 6801
+[Generator] Event 35 generated at tick 7001

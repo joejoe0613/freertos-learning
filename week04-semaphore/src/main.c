@@ -9,12 +9,16 @@ static SemaphoreHandle_t xEventSemaphore = NULL;
 
 static void vEventGeneratorTask(void *pvParameters)
 {
+    int generated = 0;
     (void)pvParameters;
 
     for (;;)
     {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-        printf("[Generator] Event generated at tick %lu\n", (unsigned long)xTaskGetTickCount());
+        vTaskDelay(pdMS_TO_TICKS(200));
+
+        generated++;
+
+        printf("[Generator] Event %d generated at tick %lu\n", generated, (unsigned long)xTaskGetTickCount());
         
         fflush(stdout);
 
@@ -24,17 +28,28 @@ static void vEventGeneratorTask(void *pvParameters)
 
 static void vProcessingTask(void *pvParameters)
 {
+    int processed = 0;
+    
     (void)pvParameters;
 
     for (;;)
     {
-        printf("    [Processor] Waiting for event...\n");
-        fflush(stdout);
-
-        if (xSemaphoreTake(xEventSemaphore, portMAX_DELAY) == pdTRUE)
+        if (xSemaphoreTake(
+                xEventSemaphore,
+                portMAX_DELAY) == pdTRUE)
         {
-            printf("    [Processor] Event received at tick %lu\n", (unsigned long)xTaskGetTickCount());
+            processed++;
+
+            printf("    [Processor] Processing event #%d at tick %lu\n",
+                   processed,
+                   (unsigned long)xTaskGetTickCount());
+
             fflush(stdout);
+
+            /*
+             * Simulate slow processing.
+             */
+            vTaskDelay(pdMS_TO_TICKS(1000));
         }
     }
 }
