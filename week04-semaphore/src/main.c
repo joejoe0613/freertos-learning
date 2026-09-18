@@ -19,7 +19,15 @@ static void vEventGeneratorTask(void *pvParameters)
         generated++;
 
         printf("[Generator] Event %d generated at tick %lu\n", generated, (unsigned long)xTaskGetTickCount());
+        printf("[Generator] Give event, pending count = %u\n", (unsigned int)uxSemaphoreGetCount(xEventSemaphore));
         
+
+        if(xSemaphoreGive(xEventSemaphore) != pdTRUE){
+            printf("[Generator] Semaphore FULL - event not recorded\n");
+        }
+        else{
+            printf("[Generator] Give success\n");
+        }
         fflush(stdout);
 
         xSemaphoreGive(xEventSemaphore);
@@ -40,9 +48,8 @@ static void vProcessingTask(void *pvParameters)
         {
             processed++;
 
-            printf("    [Processor] Processing event #%d at tick %lu\n",
-                   processed,
-                   (unsigned long)xTaskGetTickCount());
+            printf("    [Processor] Processing event #%d at tick %lu\n", processed, (unsigned long)xTaskGetTickCount());
+            printf("    [Processor] Take event, remaining count = %u\n", (unsigned int)uxSemaphoreGetCount(xEventSemaphore));
 
             fflush(stdout);
 
@@ -70,7 +77,7 @@ int main(void)
 
     printf("Week 4 - Binary Semaphore Experiment\n");
 
-    xEventSemaphore = xSemaphoreCreateBinary();
+    xEventSemaphore = xSemaphoreCreateCounting(5, 0);
 
     if (xEventSemaphore == NULL)
     {

@@ -1,0 +1,156 @@
+Week 4 - Binary Semaphore Experiment
+Semaphore and tasks created successfully.
+Starting scheduler...
+[Generator] Event 1 generated at tick 201
+[Generator] Give event, pending count = 0
+    [Processor] Processing event #1 at tick 201
+    [Processor] Take event, remaining count = 0
+[Generator] Give success
+[Generator] Event 2 generated at tick 401
+[Generator] Give event, pending count = 1
+[Generator] Give success
+[Generator] Event 3 generated at tick 601
+[Generator] Give event, pending count = 3
+[Generator] Give success
+[Generator] Event 4 generated at tick 801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 5 generated at tick 1001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #2 at tick 1201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 6 generated at tick 1201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 7 generated at tick 1401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 8 generated at tick 1601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 9 generated at tick 1801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 10 generated at tick 2001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #3 at tick 2201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 11 generated at tick 2201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 12 generated at tick 2401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 13 generated at tick 2601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 14 generated at tick 2801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 15 generated at tick 3001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #4 at tick 3201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 16 generated at tick 3201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 17 generated at tick 3401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 18 generated at tick 3601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 19 generated at tick 3801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 20 generated at tick 4001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #5 at tick 4201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 21 generated at tick 4201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 22 generated at tick 4401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 23 generated at tick 4601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 24 generated at tick 4801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 25 generated at tick 5001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #6 at tick 5201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 26 generated at tick 5201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 27 generated at tick 5401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 28 generated at tick 5601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 29 generated at tick 5801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 30 generated at tick 6001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #7 at tick 6201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 31 generated at tick 6201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 32 generated at tick 6401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 33 generated at tick 6601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 34 generated at tick 6801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 35 generated at tick 7001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #8 at tick 7201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 36 generated at tick 7201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 37 generated at tick 7401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 38 generated at tick 7601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 39 generated at tick 7801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 40 generated at tick 8001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+    [Processor] Processing event #9 at tick 8201
+    [Processor] Take event, remaining count = 4
+[Generator] Event 41 generated at tick 8201
+[Generator] Give event, pending count = 4
+[Generator] Give success
+[Generator] Event 42 generated at tick 8401
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 43 generated at tick 8601
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 44 generated at tick 8801
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
+[Generator] Event 45 generated at tick 9001
+[Generator] Give event, pending count = 5
+[Generator] Semaphore FULL - event not recorded
