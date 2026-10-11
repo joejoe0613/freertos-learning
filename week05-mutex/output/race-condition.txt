@@ -1,0 +1,6 @@
+Week 5 - Race Condition Experiment
+[Task A] Finished
+[Task B] Finished
+
+Expected Counter Value: 2000
+Actual Counter Value: 1000
