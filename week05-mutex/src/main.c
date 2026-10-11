@@ -3,8 +3,11 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "semphr.h"
 
 static volatile unsigned long sharedCounter = 0;
+
+static SemaphoreHandle_t xCounterMutex = NULL;
 
 static void vTaskA(void *pvParameters)
 {
@@ -15,6 +18,8 @@ static void vTaskA(void *pvParameters)
 
     for (i = 0; i < 1000; ++i)
     {
+        xSemaphoreTake(xCounterMutex, portMAX_DELAY); /* Take the mutex before accessing sharedCounter */   
+        
         temp = sharedCounter;
 
         taskYIELD(); /* Yield to allow other tasks to run */
@@ -24,6 +29,8 @@ static void vTaskA(void *pvParameters)
         taskYIELD();
 
         sharedCounter = temp;
+
+        xSemaphoreGive(xCounterMutex); /* Release the mutex after accessing sharedCounter */
     }
 
     printf("[Task A] Finished\n");
@@ -41,6 +48,8 @@ static void vTaskB(void *pvParameters)
 
     for (i = 0; i < 1000; ++i)
     {
+        xSemaphoreTake(xCounterMutex, portMAX_DELAY); /* Take the mutex before accessing sharedCounter */
+
         temp = sharedCounter;
 
         taskYIELD(); /* Yield to allow other tasks to run */
@@ -50,6 +59,8 @@ static void vTaskB(void *pvParameters)
         taskYIELD();
 
         sharedCounter = temp;
+
+        xSemaphoreGive(xCounterMutex); /* Release the mutex after accessing sharedCounter */    
     }
 
     printf("[Task B] Finished\n");
@@ -64,8 +75,8 @@ static void vMonitorTask(void *pvParameters)
 
     vTaskDelay(pdMS_TO_TICKS(2000)); /* Initial delay to allow other tasks to start */
 
-    printf("\nExpected Counter Value: 2000\n");
-    printf("Actual Counter Value: %lu\n", sharedCounter);
+    printf("\nExpected Counter = 2000\n");
+    printf("Actual Counter = %lu\n", sharedCounter);
     fflush(stdout);
 
     vTaskSuspend(NULL); /* Suspend itself */
@@ -83,6 +94,14 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 
 int main(void)
 {
+    xCounterMutex = xSemaphoreCreateMutex();
+
+    if(xCounterMutex == NULL)
+    {
+        printf("Mutex creation failed\n");
+        return 1;
+    }
+
     printf("Week 5 - Race Condition Experiment\n");
 
     xTaskCreate(
