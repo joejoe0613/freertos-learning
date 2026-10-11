@@ -5,108 +5,124 @@
 #include "task.h"
 #include "semphr.h"
 
-static volatile unsigned long sharedCounter = 0;
 
-static SemaphoreHandle_t xCounterMutex = NULL;
+static SemaphoreHandle_t xResourceMutex;
 
-static void vTaskA(void *pvParameters)
+
+static void vLowTask(void *pvParameters)
 {
-    unsigned long temp;
-    int i;
+    volatile unsigned long i;
 
-    (void) pvParameters;
+    (void)pvParameters;
 
-    for (i = 0; i < 1000; ++i)
+    printf("[LOW] Taking mutex\n");
+    fflush(stdout);
+
+    xSemaphoreTake(
+        xResourceMutex,
+        portMAX_DELAY
+    );
+
+    printf("[LOW] Mutex acquired\n");
+    fflush(stdout);
+
+    for (i = 0; i < 200000000UL; i++)
     {
-        xSemaphoreTake(xCounterMutex, portMAX_DELAY); /* Take the mutex before accessing sharedCounter */   
-        
-        temp = sharedCounter;
-
-        taskYIELD(); /* Yield to allow other tasks to run */
-
-        temp++;
-        
-        taskYIELD();
-
-        sharedCounter = temp;
-
-        xSemaphoreGive(xCounterMutex); /* Release the mutex after accessing sharedCounter */
+        if ((i % 50000000UL) == 0)
+        {
+            printf("[LOW] Working...\n");
+            fflush(stdout);
+        }
     }
 
-    printf("[Task A] Finished\n");
+    printf("[LOW] Releasing mutex\n");
     fflush(stdout);
 
-    vTaskSuspend(NULL); /* Suspend itself */
+    xSemaphoreGive(xResourceMutex);
+
+    vTaskSuspend(NULL);
 }
 
-static void vTaskB(void *pvParameters)
+
+static void vMediumTask(void *pvParameters)
 {
-    unsigned long temp;
-    int i;
+    volatile unsigned long i;
 
-    (void) pvParameters;
+    (void)pvParameters;
 
-    for (i = 0; i < 1000; ++i)
+    vTaskDelay(pdMS_TO_TICKS(150)); // Delay to ensure Low task has acquired the mutex before Medium task starts its work
+
+    printf("[MEDIUM] Ready and doing CPU work\n");
+    fflush(stdout);
+
+    for (i = 0; i < 100000000UL; i++)
     {
-        xSemaphoreTake(xCounterMutex, portMAX_DELAY); /* Take the mutex before accessing sharedCounter */
-
-        temp = sharedCounter;
-
-        taskYIELD(); /* Yield to allow other tasks to run */
-
-        temp++;
-        
-        taskYIELD();
-
-        sharedCounter = temp;
-
-        xSemaphoreGive(xCounterMutex); /* Release the mutex after accessing sharedCounter */    
+        /* CPU work */
     }
 
-    printf("[Task B] Finished\n");
+    printf("[MEDIUM] Finished\n");
     fflush(stdout);
 
-    vTaskSuspend(NULL); /* Suspend itself */
+    vTaskSuspend(NULL);
 }
 
-static void vMonitorTask(void *pvParameters)
+
+static void vHighTask(void *pvParameters)
 {
-    (void) pvParameters;
+    (void)pvParameters;
 
-    vTaskDelay(pdMS_TO_TICKS(2000)); /* Initial delay to allow other tasks to start */
+    vTaskDelay(pdMS_TO_TICKS(100)); // Delay to ensure Low task has acquired the mutex before High task attempts to take it
 
-    printf("\nExpected Counter = 2000\n");
-    printf("Actual Counter = %lu\n", sharedCounter);
+    printf("[HIGH] Trying to take mutex\n");
     fflush(stdout);
 
-    vTaskSuspend(NULL); /* Suspend itself */
+    // This will block until the Low task releases the mutex, demonstrating priority inheritance
+    xSemaphoreTake(
+        xResourceMutex,
+        portMAX_DELAY
+    );
+
+    printf("[HIGH] Mutex acquired\n");
+    fflush(stdout);
+
+    // Simulate some work while holding the mutex
+    xSemaphoreGive(xResourceMutex);
+
+    printf("[HIGH] Finished\n");
+    fflush(stdout);
+
+    vTaskSuspend(NULL);
 }
 
-void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+
+void vApplicationStackOverflowHook(TaskHandle_t xTask,
+                                   char *pcTaskName)
 {
-    (void) xTask;
-    (void) pcTaskName;
+    (void)xTask;
 
-    fprintf(stderr, "Stack overflow detected in task: %s\n", pcTaskName); // Optionally, you can halt the system or reset it here
-    
-    abort(); // Terminate the program to prevent further damage
+    fprintf(stderr,
+            "Stack overflow detected in task: %s\n",
+            pcTaskName);
+
+    abort();
 }
+
 
 int main(void)
 {
-    xCounterMutex = xSemaphoreCreateMutex();
+    printf("Week 5 - Priority Inheritance Experiment\n");
 
-    if(xCounterMutex == NULL)
+    xResourceMutex = xSemaphoreCreateMutex();
+
+    if (xResourceMutex == NULL)
     {
-        printf("Mutex creation failed\n");
+        printf("Mutex creation failed!\n");
         return 1;
     }
 
-    printf("Week 5 - Race Condition Experiment\n");
-
     xTaskCreate(
-        vTaskA,
-        "TaskA",
+        vLowTask,
+        "Low",
         configMINIMAL_STACK_SIZE * 2,
         NULL,
         1,
@@ -114,20 +130,20 @@ int main(void)
     );
 
     xTaskCreate(
-        vTaskB,
-        "TaskB",
-        configMINIMAL_STACK_SIZE * 2,
-        NULL,
-        1,
-        NULL
-    );
-
-    xTaskCreate(
-        vMonitorTask,
-        "Monitor",
+        vMediumTask,
+        "Medium",
         configMINIMAL_STACK_SIZE * 2,
         NULL,
         2,
+        NULL
+    );
+
+    xTaskCreate(
+        vHighTask,
+        "High",
+        configMINIMAL_STACK_SIZE * 2,
+        NULL,
+        3,
         NULL
     );
 

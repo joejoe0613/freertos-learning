@@ -1,0 +1,13 @@
+Week 5 - Priority Inheritance Experiment
+[LOW] Taking mutex
+[LOW] Mutex acquired
+[LOW] Working...
+[LOW] Working...
+[HIGH] Trying to take mutex
+[LOW] Working...
+[LOW] Working...
+[LOW] Releasing mutex
+[HIGH] Mutex acquired
+[HIGH] Finished
+[MEDIUM] Ready and doing CPU work
+[MEDIUM] Finished
